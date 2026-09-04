@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: advision-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-advision_db}
+      POSTGRES_USER: ${POSTGRES_USER:-advision_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-advision_password_secret}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
