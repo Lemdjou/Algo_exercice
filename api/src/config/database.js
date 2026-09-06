@@ -10,7 +10,7 @@ module.exports = {
     username: process.env.POSTGRES_USER || 'advision_user',
     password: process.env.POSTGRES_PASSWORD || 'advision_password_secret',
     database: process.env.POSTGRES_DB || 'advision_db',
-    host: process.env.POSTGRES_HOST || 'postgres',
+    host: process.env.POSTGRES_HOST || 'localhost',
     port: process.env.POSTGRES_PORT || 5432,
     dialect: 'postgres',
     logging: console.log
@@ -19,8 +19,8 @@ module.exports = {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT,
+    host: process.env.POSTGRES_HOST || 'postgres',
+    port: process.env.POSTGRES_PORT || 5432,
     dialect: 'postgres',
     logging: false
   }
