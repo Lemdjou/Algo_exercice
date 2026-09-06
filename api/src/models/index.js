@@ -1,12 +1,8 @@
 // ============================================================
-// INITIALISATION DES MODELES SEQUELIZE
+// INITIALISATION DES MODELES SEQUELIZE - ADVISION
 // ============================================================
 
-const fs = require('fs');
-const path = require('path');
 const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/database.js')[env];
 const db = {};
@@ -18,21 +14,16 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+// Chargement explicite des 7 modèles de l'application AdVision
+db.Utilisateur = require('./Utilisateur')(sequelize, Sequelize.DataTypes);
+db.Annonceur = require('./Annonceur')(sequelize, Sequelize.DataTypes);
+db.Tarif = require('./Tarif')(sequelize, Sequelize.DataTypes);
+db.Campagne = require('./Campagne')(sequelize, Sequelize.DataTypes);
+db.Publicite = require('./Publicite')(sequelize, Sequelize.DataTypes);
+db.Statistique = require('./Statistique')(sequelize, Sequelize.DataTypes);
+db.JournalAction = require('./JournalAction')(sequelize, Sequelize.DataTypes);
 
+// Initialisation des associations entre les modèles
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
