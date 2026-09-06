@@ -3,11 +3,14 @@
 // Application Express principale.
 //
 // Ce fichier configure les middlewares globaux (CORS, JSON)
-// et définit la route de vérification d'état (health check).
+// et monte les routes d'authentification et de santé.
 // ============================================================
 
 const express = require('express');
 const cors = require('cors');
+
+// Import des routes
+const authRoutes = require('./routes/authRoutes');
 
 // Initialisation de l'application Express
 const app = express();
@@ -30,7 +33,6 @@ app.use(express.urlencoded({ extended: true }));
 // ============================================================
 
 // Route de santé de l'API (Health Check)
-// Permet de vérifier que l'API est en ligne et fonctionnelle.
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     data: {
@@ -40,5 +42,8 @@ app.get('/api/health', (req, res) => {
     error: null
   });
 });
+
+// Montage des routes d'authentification sous /api/auth
+app.use('/api/auth', authRoutes);
 
 module.exports = app;
