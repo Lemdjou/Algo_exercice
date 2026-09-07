@@ -17,9 +17,13 @@ async function startServer() {
     await db.sequelize.authenticate();
     console.log('[AdVision API] Connexion à PostgreSQL établie avec succès !');
 
-    console.log('[AdVision API] Synchronisation des modèles Sequelize...');
-    await db.sequelize.sync({ alter: true });
-    console.log('[AdVision API] Base de données et tables synchronisées !');
+    // Tentative de synchronisation des modeles
+    try {
+      await db.sequelize.sync();
+      console.log('[AdVision API] Modèles Sequelize synchronisés !');
+    } catch (syncError) {
+      console.warn('[AdVision API] Avertissement synchronisation :', syncError.message);
+    }
 
     app.listen(PORT, () => {
       console.log(`[AdVision API] Serveur démarré avec succès sur le port ${PORT}`);
